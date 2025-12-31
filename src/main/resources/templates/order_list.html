@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的订单</title>
+  <link rel="stylesheet" th:href="@{/css/chick-yellow-theme.css}">
+</head>
+<body>
+<th:block th:fragment="content">
+  <div class="theme-decoration"></div>
+  <div class="theme-decoration"></div>
+  <div class="theme-decoration"></div>
+
+  <div class="container">
+    <h1 class="page-title">我的订单</h1>
+
+    <div style="margin: 30px 0;">
+      <!-- 有订单的情况 -->
+      <div th:if="${orders != null and !orders.isEmpty()}">
+        <div th:each="order : ${orders}" style="
+        background: linear-gradient(135deg, rgba(255, 249, 196, 0.3) 0%, rgba(255, 229, 127, 0.1) 100%);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border: 2px solid var(--warm-yellow);
+      ">
+          <div style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 15px;
+          flex-wrap: wrap;
+          gap: 10px;
+        ">
+            <div style="font-size: 20px; font-weight: 600; color: var(--dark-brown);">
+              订单号: #<span th:text="${order.id}"></span>
+            </div>
+            <div style="
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: #FFE57F;
+            color: var(--dark-brown);
+          " th:text="${order.status}"></div>
+          </div>
+
+          <div style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 15px;
+          margin-bottom: 15px;
+        ">
+            <div style="display: flex; flex-direction: column;">
+              <span style="color: var(--medium-brown); font-size: 14px; margin-bottom: 5px;">订单金额</span>
+              <span style="font-size: 16px; font-weight: 600; color: #388E3C;" th:text="'¥' + ${order.totalAmount}"></span>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+              <span style="color: var(--medium-brown); font-size: 14px; margin-bottom: 5px;">创建时间</span>
+              <span style="font-size: 16px; font-weight: 600; color: var(--dark-brown);" th:text="${order.createTime}"></span>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+              <span style="color: var(--medium-brown); font-size: 14px; margin-bottom: 5px;">商品数量</span>
+              <span style="font-size: 16px; font-weight: 600; color: var(--dark-brown);"
+                    th:text="${order.itemCount != null ? order.itemCount : '--'}">--</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+            <a th:href="@{/orders/{id}(id=${order.id})}" class="btn" style="padding: 8px 20px; font-size: 14px;">查看详情</a>
+            <button class="btn" style="
+            padding: 8px 20px;
+            font-size: 14px;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+          ">去支付</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 无订单的情况 -->
+      <div th:if="${orders == null or orders.isEmpty()}" style="text-align: center; padding: 60px 20px; color: var(--medium-brown);">
+        <div style="font-size: 48px; color: var(--warm-yellow); margin-bottom: 20px;">📦</div>
+        <h2>还没有订单</h2>
+        <p style="margin: 20px 0;">快去选购商品吧！</p>
+        <a href="/products/page" class="btn">去购物</a>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="/products/page" class="btn" style="background: linear-gradient(135deg, #FFE57F 0%, #FFB74D 100%);">
+        继续购物
+      </a>
+    </div>
+  </div>
+</th:block>
+</body>
+</html>

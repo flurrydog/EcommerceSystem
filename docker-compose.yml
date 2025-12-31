@@ -1,0 +1,31 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ecommerce-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: ecommerce
+      MYSQL_PASSWORD: ecommerce
+    ports:
+      - "3307:3306"
+    command:
+      --default-authentication-plugin=mysql_native_password
+
+  shopping-app:
+    image: openjdk:17-jdk-slim
+    container_name: shopping-app
+    working_dir: /app
+    volumes:
+      - ./EcommerceApp-0.0.1-SNAPSHOT.jar:/app/EcommerceApp-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ecommerce
+      SPRING_DATASOURCE_USERNAME: ecommerce
+      SPRING_DATASOURCE_PASSWORD: ecommerce
+    command: ["java", "-jar", "EcommerceApp-0.0.1-SNAPSHOT.jar"]
+    depends_on:
+      - mysql

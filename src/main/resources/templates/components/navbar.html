@@ -1,0 +1,64 @@
+<!-- components/navbar.html -->
+<div th:fragment="navbar">
+  <div class="navbar">
+    <div class="nav-container">
+      <!-- 网站Logo/名称 -->
+      <a href="/" class="nav-brand">
+        <span style="color: var(--primary-yellow);">🐾 </span>
+        <span>毛毛狗商城</span>
+      </a>
+
+      <!-- 导航链接 -->
+      <div class="nav-links">
+        <a href="/products/page" class="nav-link">
+          <span>🏪</span>
+          <span>商品中心</span>
+        </a>
+        <a href="/cart/page" class="nav-link">
+          <span>🛒</span>
+          <span>购物车</span>
+          <span class="cart-count" th:if="${cartCount != null and cartCount > 0}" th:text="${cartCount}"></span>
+        </a>
+        <a href="/orders/list" class="nav-link">
+          <span>📋</span>
+          <span>我的订单</span>
+        </a>
+      </div>
+
+      <!-- 用户信息（根据登录状态显示） -->
+      <div class="user-info" th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="user-avatar">
+          <span th:text="${#authentication.name.substring(0, 1).toUpperCase()}">U</span>
+        </div>
+        <span th:text="${#authentication.name}">用户名</span>
+        <form th:action="@{/logout}" method="post" style="display: inline; margin-left: 15px;">
+          <button type="submit" style="
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--dark-brown);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+          ">
+            退出
+          </button>
+        </form>
+      </div>
+
+      <!-- 未登录时显示登录/注册链接 -->
+      <div class="user-info" th:unless="${#authorization.expression('isAuthenticated()')}">
+        <a href="/login" class="nav-link" style="background: none; padding: 8px 12px;">
+          <span>🔑</span>
+          <span>登录</span>
+        </a>
+        <a href="/register" class="nav-link" style="background: rgba(255, 255, 255, 0.3);">
+          <span>✨</span>
+          <span>注册</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

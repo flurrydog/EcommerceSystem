@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>购物车</title>
+  <link rel="stylesheet" th:href="@{/css/chick-yellow-theme.css}">
+</head>
+<body>
+<th:block th:fragment="content">
+  <div class="theme-decoration"></div>
+  <div class="theme-decoration"></div>
+  <div class="theme-decoration"></div>
+
+  <div class="container">
+    <h1 class="page-title">购物车</h1>
+
+    <!-- 购物车有商品的情况 -->
+    <div th:if="${items != null and !items.isEmpty()}">
+      <table style="
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 12px var(--shadow);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--warm-yellow);
+    ">
+        <thead style="background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--accent-orange) 100%);">
+        <tr>
+          <th style="
+          color: var(--dark-brown);
+          font-weight: 600;
+          text-align: left;
+          padding: 20px;
+          font-size: 16px;
+          letter-spacing: 0.5px;
+        ">商品</th>
+          <th style="
+          color: var(--dark-brown);
+          font-weight: 600;
+          text-align: left;
+          padding: 20px;
+          font-size: 16px;
+          letter-spacing: 0.5px;
+        ">单价</th>
+          <th style="
+          color: var(--dark-brown);
+          font-weight: 600;
+          text-align: left;
+          padding: 20px;
+          font-size: 16px;
+          letter-spacing: 0.5px;
+        ">数量</th>
+          <th style="
+          color: var(--dark-brown);
+          font-weight: 600;
+          text-align: left;
+          padding: 20px;
+          font-size: 16px;
+          letter-spacing: 0.5px;
+        ">小计</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}" style="border-bottom: 1px solid var(--warm-yellow);">
+          <td style="
+          padding: 20px;
+          color: var(--dark-brown);
+          font-size: 15px;
+          font-weight: 600;
+        " th:text="${item.name()}"></td>
+          <td style="
+          padding: 20px;
+          color: #388E3C;
+          font-size: 15px;
+          font-weight: 600;
+        " th:text="'¥' + ${item.price()}"></td>
+          <td style="
+          padding: 20px;
+          color: #1976D2;
+          font-size: 15px;
+          font-weight: 600;
+        " th:text="${item.quantity()}"></td>
+          <td style="
+          padding: 20px;
+          color: #388E3C;
+          font-size: 15px;
+          font-weight: 600;
+        " th:text="'¥' + ${item.subtotal()}"></td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div style="
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 25px;
+      background: linear-gradient(135deg, rgba(255, 249, 196, 0.5) 0%, rgba(255, 229, 127, 0.3) 100%);
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 2px solid var(--primary-yellow);
+    ">
+      <span style="
+        font-size: 18px;
+        color: var(--dark-brown);
+        margin-right: 15px;
+        font-weight: 600;
+      ">总价：</span>
+        <span style="
+        font-size: 28px;
+        color: var(--dark-brown);
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--primary-yellow), var(--accent-orange));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      " th:text="'¥' + ${total}"></span>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 20px;">
+        <a href="/products/page" class="btn">继续购物</a>
+        <a href="/orders/checkout" class="btn" style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);">
+          🛒 结算订单
+        </a>
+      </div>
+    </div>
+
+    <!-- 购物车为空的情况 -->
+    <div th:if="${items == null or items.isEmpty()}" style="text-align: center; padding: 60px 20px;">
+      <div style="font-size: 48px; color: var(--warm-yellow); margin-bottom: 20px;">🛒</div>
+      <h2 style="color: var(--medium-brown); margin-bottom: 20px;">购物车是空的</h2>
+      <p style="color: var(--medium-brown); margin-bottom: 30px;">快去添加商品吧！</p>
+      <a href="/products/page" class="btn">去购物</a>
+    </div>
+  </div>
+</th:block>
+</body>
+</html>

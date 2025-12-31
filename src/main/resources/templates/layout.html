@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 使用 th:fragment 定义可接收参数的布局 -->
+  <style>
+    /* 页脚固定底部样式 */
+    html, body { height: 100%; margin: 0; }
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    .main-content { flex: 1 0 auto; }
+    .footer { flex-shrink: 0; margin-top: auto; padding: 20px 0; border-top: 2px solid #FFD700; background: white; }
+  </style>
+</head>
+
+<body>
+<!-- 定义布局片段，接收两个参数 -->
+<th:block th:fragment="layout(pageTitle, content)">
+  <!-- 设置页面标题 -->
+  <title th:text="${pageTitle} + ' - 毛毛狗商城'">毛毛狗商城</title>
+  <link rel="stylesheet" th:href="@{/css/chick-yellow-theme.css}">
+
+  <style>
+    .footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 2px solid var(--warm-yellow);
+    }
+  </style>
+
+  <!-- 导航栏 -->
+  <div th:replace="~{components/navbar :: navbar}"></div>
+
+  <!-- 插入各个页面的具体内容 -->
+  <div th:replace="${content}"></div>
+
+  <!-- 页脚 -->
+  <div class="footer">
+    <div class="container">
+      <div style="text-align: center; color: var(--medium-brown); padding: 20px;">
+        <p>© 2025 毛毛狗商城 - 让购物更温暖</p>
+        <p style="font-size: 14px; margin-top: 10px;">Powered by Spring Boot & Thymeleaf</p>
+      </div>
+    </div>
+  </div>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>订单确认</title>
+  <link rel="stylesheet" th:href="@{/css/chick-yellow-theme.css}">
+  <style>
+    .checkout-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .checkout-items {
+      margin: 30px 0;
+    }
+
+    .checkout-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      border-bottom: 1px solid var(--warm-yellow);
+    }
+
+    .checkout-total {
+      text-align: right;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 30px 0;
+      color: var(--dark-brown);
+    }
+  </style>
+</head>
+<body>
+<th:block th:fragment="content">
+<div class="theme-decoration"></div>
+<div class="theme-decoration"></div>
+<div class="theme-decoration"></div>
+
+<div class="container">
+  <h1 class="page-title">订单确认</h1>
+
+  <div class="checkout-container">
+    <!-- 这里应该显示购物车商品列表 -->
+    <p>确认您的订单信息，点击下方按钮提交订单。</p>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <form th:action="@{/orders/create}" method="post">
+        <button type="submit" class="btn" style="padding: 15px 50px; font-size: 18px;">
+          提交订单
+        </button>
+      </form>
+
+      <a href="/cart/page" class="btn" style="margin-top: 20px; background: linear-gradient(135deg, #FFE57F 0%, #FFB74D 100%);">
+        返回购物车
+      </a>
+    </div>
+  </div>
+</div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户登录</title>
+  <link rel="stylesheet" th:href="@{/css/chick-yellow-theme.css}">
+</head>
+<body>
+<th:block th:fragment="content">
+  <div class="theme-decoration"></div>
+  <div class="theme-decoration"></div>
+  <div class="theme-decoration"></div>
+
+  <div class="container">
+    <div style="max-width: 450px; margin: 0 auto;">
+      <h1 class="page-title">用户登录</h1>
+
+      <!-- 消息提示 -->
+      <div th:if="${error}" style="
+                background-color: rgba(255, 183, 77, 0.15);
+                border: 2px solid var(--accent-orange);
+                color: #D84315;
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+            ">
+        <span>⚠️</span>
+        <span th:text="${error}">用户名或密码错误</span>
+      </div>
+
+      <div th:if="${message}" style="
+                background-color: rgba(129, 199, 132, 0.15);
+                border: 2px solid #81C784;
+                color: #2E7D32;
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+            ">
+        <span>✅</span>
+        <span th:text="${message}">您已成功登出</span>
+      </div>
+
+      <div th:if="${success}" style="
+                background-color: rgba(129, 199, 132, 0.15);
+                border: 2px solid #81C784;
+                color: #2E7D32;
+                padding: 15px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+            ">
+        <span>🎉</span>
+        <span th:text="${success}">注册成功！请登录</span>
+      </div>
+
+      <form th:action="@{/login}" method="post">
+        <div style="margin-bottom: 20px;">
+          <label style="
+                        display: block;
+                        margin-bottom: 8px;
+                        font-weight: 600;
+                        color: var(--dark-brown);
+                    " for="username">用户名</label>
+          <input type="text"
+                 id="username"
+                 name="username"
+                 style="
+                                width: 100%;
+                                padding: 12px 16px;
+                                border: 2px solid var(--warm-yellow);
+                                border-radius: 10px;
+                                font-size: 16px;
+                                color: var(--dark-brown);
+                                background-color: rgba(255, 255, 255, 0.9);
+                           "
+                 required
+                 placeholder="请输入用户名"
+                 autofocus>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="
+                        display: block;
+                        margin-bottom: 8px;
+                        font-weight: 600;
+                        color: var(--dark-brown);
+                    " for="password">密码</label>
+          <input type="password"
+                 id="password"
+                 name="password"
+                 style="
+                                width: 100%;
+                                padding: 12px 16px;
+                                border: 2px solid var(--warm-yellow);
+                                border-radius: 10px;
+                                font-size: 16px;
+                                color: var(--dark-brown);
+                                background-color: rgba(255, 255, 255, 0.9);
+                           "
+                 required
+                 placeholder="请输入密码">
+        </div>
+
+        <div style="
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    color: var(--medium-brown);
+                ">
+          <input type="checkbox" id="remember-me" name="remember-me" style="width: 18px; height: 18px;">
+          <label for="remember-me">24小时内免登录</label>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; padding: 14px; font-size: 16px;">
+          登录商城
+        </button>
+      </form>
+
+      <div style="
+                text-align: center;
+                margin-top: 25px;
+                padding-top: 20px;
+                border-top: 1px solid var(--warm-yellow);
+                color: var(--medium-brown);
+            ">
+        <span>还没有账号？</span>
+        <a th:href="@{/register}" style="color: var(--accent-orange); font-weight: 600; margin-left: 5px;">
+          立即注册
+        </a>
+      </div>
+    </div>
+  </div>
+</th:block>
+</body>
+</html>

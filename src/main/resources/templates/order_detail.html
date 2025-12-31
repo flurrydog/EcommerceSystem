@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>订单详情</title>
+  <link rel="stylesheet" th:href="@{/css/chick-yellow-theme.css}">
+</head>
+<body>
+<th:block th:fragment="content">
+  <div style="position: fixed; top: 10px; right: 10px; width: 100px; height: 100px; background: radial-gradient(circle, var(--light-yellow) 20%, transparent 70%); border-radius: 50%; z-index: -1;"></div>
+  <div style="position: fixed; top: 50px; left: 5%; width: 80px; height: 80px; background: radial-gradient(circle, var(--light-yellow) 15%, transparent 60%); border-radius: 50%; z-index: -1;"></div>
+  <div style="position: fixed; bottom: 20px; right: 15%; width: 120px; height: 120px; background: radial-gradient(circle, var(--light-yellow) 25%, transparent 65%); border-radius: 50%; z-index: -1;"></div>
+
+  <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 30px 20px; position: relative;">
+    <h1 class="page-title" style="font-size: 32px; color: var(--dark-brown); margin-bottom: 40px; text-align: center; font-weight: bold;">订单详情</h1>
+
+    <div style="background: linear-gradient(135deg, rgba(255, 249, 196, 0.3) 0%, rgba(255, 229, 127, 0.1) 100%); padding: 25px; border-radius: 12px; margin-bottom: 30px; border: 2px solid var(--warm-yellow);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        <div>
+          <div style="color: var(--medium-brown); font-size: 14px; margin-bottom: 5px;">订单号</div>
+          <div style="font-size: 20px; font-weight: 600; color: var(--dark-brown);" th:text="${order.id}"></div>
+        </div>
+        <div>
+          <div style="color: var(--medium-brown); font-size: 14px; margin-bottom: 5px;">订单状态</div>
+          <div style="font-size: 20px; font-weight: 600; color: #1976D2;" th:text="${order.status}"></div>
+        </div>
+        <div>
+          <div style="color: var(--medium-brown); font-size: 14px; margin-bottom: 5px;">订单金额</div>
+          <div style="font-size: 20px; font-weight: 600; color: #388E3C;" th:text="'¥' + ${order.totalAmount}"></div>
+        </div>
+        <div>
+          <div style="color: var(--medium-brown); font-size: 14px; margin-bottom: 5px;">创建时间</div>
+          <div style="font-size: 18px; color: var(--dark-brown);" th:text="${order.createTime}"></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="color: var(--dark-brown); margin: 30px 0 20px 0; font-size: 24px; font-weight: bold;">订单商品</h2>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid var(--warm-yellow); border-radius: 8px; overflow: hidden;">
+      <thead>
+      <tr style="background-color: var(--primary-yellow);">
+        <th style="padding: 15px; color: var(--dark-brown); text-align: left; font-weight: bold;">商品名称</th>
+        <th style="padding: 15px; color: var(--dark-brown); text-align: left; font-weight: bold;">单价</th>
+        <th style="padding: 15px; color: var(--dark-brown); text-align: left; font-weight: bold;">数量</th>
+        <th style="padding: 15px; color: var(--dark-brown); text-align: left; font-weight: bold;">小计</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${orderItems}" style="border-bottom: 1px solid var(--warm-yellow);">
+        <td style="padding: 15px; color: var(--dark-brown);" th:text="${item.productName}"></td>
+        <td style="padding: 15px; color: var(--dark-brown);" th:text="'¥' + ${item.price}"></td>
+        <td style="padding: 15px; color: var(--dark-brown);" th:text="${item.quantity}"></td>
+        <td style="padding: 15px; color: var(--dark-brown);" th:text="'¥' + ${item.subtotal}"></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="/orders/list" class="btn" style="margin-right: 20px;">订单列表</a>
+      <a href="/products/page" class="btn" style="background: linear-gradient(135deg, #FFE57F 0%, #FFB74D 100%); color: var(--dark-brown); border: 2px solid var(--warm-yellow);">继续购物</a>
+    </div>
+  </div>
+</th:block>
+</body>
+</html>

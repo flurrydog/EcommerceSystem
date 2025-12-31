@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品列表</title>
+</head>
+<body>
+<!-- 这里定义 content 片段 -->
+<th:block th:fragment="content">
+    <!-- 主题装饰元素 -->
+    <div class="theme-decoration"></div>
+    <div class="theme-decoration"></div>
+    <div class="theme-decoration"></div>
+
+    <div class="container">
+        <h1 class="page-title">商品列表</h1>
+
+        <ul class="product-list">
+            <li class="product-item" th:each="product : ${products}">
+                <a class="product-link"
+                   th:href="@{/products/{id}/page(id=${product.id})}"
+                   th:text="${product.name}"></a>
+                <div class="product-price">
+                    <span class="price-label">价格：</span>
+                    <span th:text="'¥' + ${product.price}"></span>
+                </div>
+            </li>
+        </ul>
+
+        <!-- 商品为空时的提示 -->
+        <div th:if="${products == null or products.isEmpty()}" class="empty-state">
+            <div class="empty-state-icon">📦</div>
+            <p class="empty-state-text">暂时没有商品，请稍后再来</p>
+            <a href="/" class="btn">返回首页</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/cart/page" class="btn">
+                <span style="margin-right: 8px;">🛒</span>
+                查看购物车
+            </a>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

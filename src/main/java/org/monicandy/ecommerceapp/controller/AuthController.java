@@ -98,6 +98,6 @@ public class AuthController {
 
     @GetMapping("/")
     public String home() {
-        return "redirect:/products";
+        return "redirect:/products/page";
     }
 }

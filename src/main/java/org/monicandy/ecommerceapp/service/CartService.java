@@ -19,7 +19,7 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
 
-    private static final Long MOCK_USER_ID = 1L;
+    // 删除这个常量：private static final Long MOCK_USER_ID = 1L;
 
     public CartService(CartItemRepository cartItemRepository,
                        ProductRepository productRepository) {
@@ -28,12 +28,12 @@ public class CartService {
     }
 
     @Transactional
-    public void addToCart(Long productId) {
+    public void addToCart(Long userId, Long productId) {  // 添加 userId 参数
         CartItem item = cartItemRepository
-                .findByUserIdAndProductId(MOCK_USER_ID, productId)
+                .findByUserIdAndProductId(userId, productId)  // 使用传入的 userId
                 .orElseGet(() -> {
                     CartItem newItem = new CartItem();
-                    newItem.setUserId(MOCK_USER_ID);
+                    newItem.setUserId(userId);  // 使用传入的 userId
                     newItem.setProductId(productId);
                     newItem.setQuantity(0);
                     return newItem;
@@ -43,12 +43,12 @@ public class CartService {
         cartItemRepository.save(item);
     }
 
-    public List<CartItem> listCartItems() {
-        return cartItemRepository.findByUserId(MOCK_USER_ID);
+    public List<CartItem> listCartItems(Long userId) {  // 添加 userId 参数
+        return cartItemRepository.findByUserId(userId);  // 使用传入的 userId
     }
 
-    public CartPageView getCartPageView() {
-        List<CartItem> items = cartItemRepository.findByUserId(MOCK_USER_ID);
+    public CartPageView getCartPageView(Long userId) {  // 添加 userId 参数
+        List<CartItem> items = cartItemRepository.findByUserId(userId);  // 使用传入的 userId
 
         List<CartView> views = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
@@ -73,6 +73,4 @@ public class CartService {
 
         return new CartPageView(views, total);
     }
-
-
 }

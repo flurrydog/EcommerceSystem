@@ -21,31 +21,50 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // 放行所有请求（课设阶段）
-                        .anyRequest().permitAll()
+                        // 公开访问的路径
+                        .requestMatchers(
+                                "/",
+                                "/home",
+                                "/login",
+                                "/register",
+                                "/products/**",           // 产品列表和详情页
+                                "/product/**",            // 产品相关页面
+                                "/css/**",                // CSS静态资源
+                                "/js/**",                 // JS静态资源
+                                "/images/**",             // 图片资源
+                                "/favicon.ico",           // 网站图标
+                                "/error"                  // 错误页面
+                        ).permitAll()
+
+                        // 需要登录的路径
+                        .requestMatchers(
+                                "/cart/**",               // 购物车所有页面
+                                "/orders/**",             // 订单所有页面
+                                "/profile/**",            // 个人资料
+                                "/checkout/**",           // 结算页面
+                                "/payment/**"             // 支付页面
+                        ).authenticated()
+
+                        // 其他所有请求都需要登录
+                        .anyRequest().authenticated()
                 )
-                // 禁用默认的表单登录，使用我们自己的登录页
                 .formLogin(form -> form
-                        .loginPage("/login")           // 指定登录页面
-                        .loginProcessingUrl("/login")  // 指定登录处理URL
-                        .defaultSuccessUrl("/products/page", true)  // 登录成功后跳转
-                        .failureUrl("/login?error=true")  // 登录失败后跳转
-                        .permitAll()                    // 允许所有用户访问登录页
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/products/page", true)
+                        .failureUrl("/login?error=true")
+                        .permitAll()
                 )
-                // 退出登录配置
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
                 )
-                // 记住我功能
                 .rememberMe(remember -> remember
                         .key("uniqueAndSecret")
                         .tokenValiditySeconds(86400)
                 )
-                // 关闭 CSRF（开发阶段）
                 .csrf(csrf -> csrf.disable())
-                // 禁用默认的HTTP Basic认证
                 .httpBasic(basic -> basic.disable());
 
         return http.build();

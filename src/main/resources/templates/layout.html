@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 使用 th:fragment 定义可接收参数的布局 -->
+
   <style>
     /* 页脚固定底部样式 */
     html, body { height: 100%; margin: 0; }
@@ -33,7 +32,9 @@
   <div th:replace="~{components/navbar :: navbar}"></div>
 
   <!-- 插入各个页面的具体内容 -->
-  <div th:replace="${content}"></div>
+  <div class="main-content">
+    <th:block th:replace="${content}"></th:block>
+  </div>
 
   <!-- 页脚 -->
   <div class="footer">

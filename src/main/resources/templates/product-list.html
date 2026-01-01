@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+      th:replace="~{layout :: layout('商品列表', ~{::content})}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品列表</title>
 </head>
 <body>
 <!-- 这里定义 content 片段 -->
